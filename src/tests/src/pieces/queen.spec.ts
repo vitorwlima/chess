@@ -126,4 +126,38 @@ describe('queen', () => {
 			expect(result).toBe(false)
 		})
 	})
+
+	describe('should not be able to move with pieces in between', () => {
+		test('1', () => {
+			const result = QUEEN.canMoveTo({
+				from: 'c8',
+				to: 'b7',
+				board: getEmptyBoard({
+					turn: 'black',
+					position: {
+						c8: { color: 'black', piece: 'queen' },
+						b7: { color: 'black', piece: 'pawn' },
+					},
+				}),
+			})
+
+			expect(result).toBe(false)
+		})
+
+		test('2', () => {
+			const result = QUEEN.canMoveTo({
+				from: 'e3',
+				to: 'h6',
+				board: getEmptyBoard({
+					turn: 'white',
+					position: {
+						e3: { color: 'white', piece: 'queen' },
+						g5: { color: 'black', piece: 'pawn' },
+					},
+				}),
+			})
+
+			expect(result).toBe(false)
+		})
+	})
 })

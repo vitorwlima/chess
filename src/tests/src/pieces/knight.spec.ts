@@ -126,4 +126,40 @@ describe('knight', () => {
 			expect(result).toBe(false)
 		})
 	})
+
+	describe('should be able to move with pieces in between', () => {
+		test('1', () => {
+			const result = KNIGHT.canMoveTo({
+				from: 'c8',
+				to: 'd6',
+				board: getEmptyBoard({
+					turn: 'black',
+					position: {
+						c8: { color: 'black', piece: 'knight' },
+						d7: { color: 'black', piece: 'pawn' },
+
+					},
+				}),
+			})
+
+			expect(result).toBe(true)
+		})
+
+		test('2', () => {
+			const result = KNIGHT.canMoveTo({
+				from: 'e3',
+				to: 'f5',
+				board: getEmptyBoard({
+					turn: 'white',
+					position: {
+						e3: { color: 'white', piece: 'knight' },
+						f4: { color: 'white', piece: 'pawn' },
+						e4: { color: 'black', piece: 'queen' },
+					},
+				}),
+			})
+
+			expect(result).toBe(true)
+		})
+	})
 })

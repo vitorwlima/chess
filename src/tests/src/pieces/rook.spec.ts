@@ -126,4 +126,38 @@ describe('rook', () => {
 			expect(result).toBe(false)
 		})
 	})
+
+	describe('should not be able to move with pieces in between', () => {
+		test('1', () => {
+			const result = ROOK.canMoveTo({
+				from: 'c8',
+				to: 'h8',
+				board: getEmptyBoard({
+					turn: 'black',
+					position: {
+						c8: { color: 'black', piece: 'rook' },
+						d8: { color: 'black', piece: 'pawn' },
+					},
+				}),
+			})
+
+			expect(result).toBe(false)
+		})
+
+		test('2', () => {
+			const result = ROOK.canMoveTo({
+				from: 'e3',
+				to: 'e8',
+				board: getEmptyBoard({
+					turn: 'white',
+					position: {
+						e3: { color: 'white', piece: 'rook' },
+						e7: { color: 'black', piece: 'pawn' },
+					},
+				}),
+			})
+
+			expect(result).toBe(false)
+		})
+	})
 })

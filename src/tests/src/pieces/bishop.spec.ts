@@ -126,4 +126,38 @@ describe('bishop', () => {
 			expect(result).toBe(false)
 		})
 	})
+
+	describe('should not be able to move with pieces in between', () => {
+		test('1', () => {
+			const result = BISHOP.canMoveTo({
+				from: 'c8',
+				to: 'a6',
+				board: getEmptyBoard({
+					turn: 'black',
+					position: {
+						c8: { color: 'black', piece: 'bishop' },
+						b7: { color: 'black', piece: 'pawn' },
+					},
+				}),
+			})
+
+			expect(result).toBe(false)
+		})
+
+		test('2', () => {
+			const result = BISHOP.canMoveTo({
+				from: 'e3',
+				to: 'a7',
+				board: getEmptyBoard({
+					turn: 'white',
+					position: {
+						e3: { color: 'white', piece: 'bishop' },
+						c5: { color: 'black', piece: 'pawn' },
+					},
+				}),
+			})
+
+			expect(result).toBe(false)
+		})
+	})
 })
