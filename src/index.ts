@@ -1,0 +1,3 @@
+const board = {
+	a1: '',
+}
