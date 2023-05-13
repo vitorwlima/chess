@@ -5,61 +5,61 @@ import { getEmptyBoard } from '../../helpers/emptyBoard'
 describe('bishop', () => {
 	describe('should be able to move with empty board', () => {
 		test('1', () => {
-			const result = BISHOP.canMoveTo(
-				'c8',
-				'a6',
-				getEmptyBoard({
+			const result = BISHOP.canMoveTo({
+				from: 'c8',
+				to: 'a6',
+				board: getEmptyBoard({
 					turn: 'black',
 					position: {
 						c8: { color: 'black', piece: 'bishop' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(true)
 		})
 
 		test('2', () => {
-			const result = BISHOP.canMoveTo(
-				'e3',
-				'a7',
-				getEmptyBoard({
+			const result = BISHOP.canMoveTo({
+				from: 'e3',
+				to: 'a7',
+				board: getEmptyBoard({
 					turn: 'white',
 					position: {
 						e3: { color: 'white', piece: 'bishop' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(true)
 		})
 
 		test('3', () => {
-			const result = BISHOP.canMoveTo(
-				'g8',
-				'e6',
-				getEmptyBoard({
+			const result = BISHOP.canMoveTo({
+				from: 'g8',
+				to: 'e6',
+				board: getEmptyBoard({
 					turn: 'black',
 					position: {
 						g8: { color: 'black', piece: 'bishop' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(true)
 		})
 
 		test('4', () => {
-			const result = BISHOP.canMoveTo(
-				'e7',
-				'h4',
-				getEmptyBoard({
+			const result = BISHOP.canMoveTo({
+				from: 'e7',
+				to: 'h4',
+				board: getEmptyBoard({
 					turn: 'white',
 					position: {
 						e7: { color: 'white', piece: 'bishop' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(true)
 		})
@@ -67,61 +67,61 @@ describe('bishop', () => {
 
 	describe('should not be able to move with empty board', () => {
 		test('1', () => {
-			const result = BISHOP.canMoveTo(
-				'c8',
-				'a5',
-				getEmptyBoard({
+			const result = BISHOP.canMoveTo({
+				from: 'c8',
+				to: 'a5',
+				board: getEmptyBoard({
 					turn: 'black',
 					position: {
 						c8: { color: 'black', piece: 'bishop' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(false)
 		})
 
 		test('2', () => {
-			const result = BISHOP.canMoveTo(
-				'e3',
-				'a8',
-				getEmptyBoard({
+			const result = BISHOP.canMoveTo({
+				from: 'e3',
+				to: 'a8',
+				board: getEmptyBoard({
 					turn: 'white',
 					position: {
 						e3: { color: 'white', piece: 'bishop' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(false)
 		})
 
 		test('3', () => {
-			const result = BISHOP.canMoveTo(
-				'g8',
-				'e4',
-				getEmptyBoard({
+			const result = BISHOP.canMoveTo({
+				from: 'g8',
+				to: 'e4',
+				board: getEmptyBoard({
 					turn: 'black',
 					position: {
 						g8: { color: 'black', piece: 'bishop' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(false)
 		})
 
 		test('4', () => {
-			const result = BISHOP.canMoveTo(
-				'e7',
-				'h2',
-				getEmptyBoard({
+			const result = BISHOP.canMoveTo({
+				from: 'e7',
+				to: 'h2',
+				board: getEmptyBoard({
 					turn: 'white',
 					position: {
 						e7: { color: 'white', piece: 'bishop' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(false)
 		})

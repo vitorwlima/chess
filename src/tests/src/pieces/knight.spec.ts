@@ -5,61 +5,61 @@ import { getEmptyBoard } from '../../helpers/emptyBoard'
 describe('knight', () => {
 	describe('should be able to move with empty board', () => {
 		test('1', () => {
-			const result = KNIGHT.canMoveTo(
-				'c8',
-				'd6',
-				getEmptyBoard({
+			const result = KNIGHT.canMoveTo({
+				from: 'c8',
+				to: 'd6',
+				board: getEmptyBoard({
 					turn: 'black',
 					position: {
 						c8: { color: 'black', piece: 'knight' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(true)
 		})
 
 		test('2', () => {
-			const result = KNIGHT.canMoveTo(
-				'e3',
-				'f5',
-				getEmptyBoard({
+			const result = KNIGHT.canMoveTo({
+				from: 'e3',
+				to: 'f5',
+				board: getEmptyBoard({
 					turn: 'white',
 					position: {
 						e3: { color: 'white', piece: 'knight' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(true)
 		})
 
 		test('3', () => {
-			const result = KNIGHT.canMoveTo(
-				'g8',
-				'h6',
-				getEmptyBoard({
+			const result = KNIGHT.canMoveTo({
+				from: 'g8',
+				to: 'h6',
+				board: getEmptyBoard({
 					turn: 'black',
 					position: {
 						g8: { color: 'black', piece: 'knight' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(true)
 		})
 
 		test('4', () => {
-			const result = KNIGHT.canMoveTo(
-				'e7',
-				'd5',
-				getEmptyBoard({
+			const result = KNIGHT.canMoveTo({
+				from: 'e7',
+				to: 'd5',
+				board: getEmptyBoard({
 					turn: 'white',
 					position: {
 						e7: { color: 'white', piece: 'knight' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(true)
 		})
@@ -67,61 +67,61 @@ describe('knight', () => {
 
 	describe('should not be able to move with empty board', () => {
 		test('1', () => {
-			const result = KNIGHT.canMoveTo(
-				'c8',
-				'd5',
-				getEmptyBoard({
+			const result = KNIGHT.canMoveTo({
+				from: 'c8',
+				to: 'd5',
+				board: getEmptyBoard({
 					turn: 'black',
 					position: {
 						c8: { color: 'black', piece: 'knight' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(false)
 		})
 
 		test('2', () => {
-			const result = KNIGHT.canMoveTo(
-				'e3',
-				'a3',
-				getEmptyBoard({
+			const result = KNIGHT.canMoveTo({
+				from: 'e3',
+				to: 'a3',
+				board: getEmptyBoard({
 					turn: 'white',
 					position: {
 						e3: { color: 'white', piece: 'knight' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(false)
 		})
 
 		test('3', () => {
-			const result = KNIGHT.canMoveTo(
-				'g8',
-				'e4',
-				getEmptyBoard({
+			const result = KNIGHT.canMoveTo({
+				from: 'g8',
+				to: 'e4',
+				board: getEmptyBoard({
 					turn: 'black',
 					position: {
 						g8: { color: 'black', piece: 'knight' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(false)
 		})
 
 		test('4', () => {
-			const result = KNIGHT.canMoveTo(
-				'e7',
-				'h2',
-				getEmptyBoard({
+			const result = KNIGHT.canMoveTo({
+				from: 'e7',
+				to: 'h2',
+				board: getEmptyBoard({
 					turn: 'white',
 					position: {
 						e7: { color: 'white', piece: 'knight' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(false)
 		})

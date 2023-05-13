@@ -5,61 +5,61 @@ import { getEmptyBoard } from '../../helpers/emptyBoard'
 describe('rook', () => {
 	describe('should be able to move with empty board', () => {
 		test('1', () => {
-			const result = ROOK.canMoveTo(
-				'c8',
-				'h8',
-				getEmptyBoard({
+			const result = ROOK.canMoveTo({
+				from: 'c8',
+				to: 'h8',
+				board: getEmptyBoard({
 					turn: 'black',
 					position: {
 						c8: { color: 'black', piece: 'rook' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(true)
 		})
 
 		test('2', () => {
-			const result = ROOK.canMoveTo(
-				'e3',
-				'f3',
-				getEmptyBoard({
+			const result = ROOK.canMoveTo({
+				from: 'e3',
+				to: 'f3',
+				board: getEmptyBoard({
 					turn: 'white',
 					position: {
 						e3: { color: 'white', piece: 'rook' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(true)
 		})
 
 		test('3', () => {
-			const result = ROOK.canMoveTo(
-				'g8',
-				'g7',
-				getEmptyBoard({
+			const result = ROOK.canMoveTo({
+				from: 'g8',
+				to: 'g7',
+				board: getEmptyBoard({
 					turn: 'black',
 					position: {
 						g8: { color: 'black', piece: 'rook' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(true)
 		})
 
 		test('4', () => {
-			const result = ROOK.canMoveTo(
-				'e7',
-				'e1',
-				getEmptyBoard({
+			const result = ROOK.canMoveTo({
+				from: 'e7',
+				to: 'e1',
+				board: getEmptyBoard({
 					turn: 'white',
 					position: {
 						e7: { color: 'white', piece: 'rook' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(true)
 		})
@@ -67,61 +67,61 @@ describe('rook', () => {
 
 	describe('should not be able to move with empty board', () => {
 		test('1', () => {
-			const result = ROOK.canMoveTo(
-				'c8',
-				'd6',
-				getEmptyBoard({
+			const result = ROOK.canMoveTo({
+				from: 'c8',
+				to: 'd6',
+				board: getEmptyBoard({
 					turn: 'black',
 					position: {
 						c8: { color: 'black', piece: 'rook' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(false)
 		})
 
 		test('2', () => {
-			const result = ROOK.canMoveTo(
-				'e3',
-				'g4',
-				getEmptyBoard({
+			const result = ROOK.canMoveTo({
+				from: 'e3',
+				to: 'g4',
+				board: getEmptyBoard({
 					turn: 'white',
 					position: {
 						e3: { color: 'white', piece: 'rook' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(false)
 		})
 
 		test('3', () => {
-			const result = ROOK.canMoveTo(
-				'g8',
-				'e4',
-				getEmptyBoard({
+			const result = ROOK.canMoveTo({
+				from: 'g8',
+				to: 'e4',
+				board: getEmptyBoard({
 					turn: 'black',
 					position: {
 						g8: { color: 'black', piece: 'rook' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(false)
 		})
 
 		test('4', () => {
-			const result = ROOK.canMoveTo(
-				'e7',
-				'h2',
-				getEmptyBoard({
+			const result = ROOK.canMoveTo({
+				from: 'e7',
+				to: 'h2',
+				board: getEmptyBoard({
 					turn: 'white',
 					position: {
 						e7: { color: 'white', piece: 'rook' },
 					},
 				}),
-			)
+			})
 
 			expect(result).toBe(false)
 		})
