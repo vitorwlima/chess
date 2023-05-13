@@ -1,3 +1,5 @@
+import { Piece } from '.'
+
 export const BISHOP = new Piece({
 	name: 'bishop',
 	notation: 'b',
@@ -9,7 +11,4 @@ export const BISHOP = new Piece({
 		[-1, -1],
 	],
 	patternRepeat: true,
-	canMoveTo: (from: string, to: string, board: Board) => {
-		return true
-	},
 })

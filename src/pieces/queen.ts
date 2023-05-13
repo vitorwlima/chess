@@ -1,5 +1,7 @@
+import { Piece } from '.'
+
 export const QUEEN = new Piece({
-	name: 'king',
+	name: 'queen',
 	notation: 'q',
 	unicode: '♛',
 	pattern: [
@@ -13,7 +15,4 @@ export const QUEEN = new Piece({
 		[0, -1],
 	],
 	patternRepeat: true,
-	canMoveTo: (from: string, to: string, board: Board) => {
-		return true
-	},
 })

@@ -1,3 +1,5 @@
+import { Piece } from '.'
+
 export const ROOK = new Piece({
 	name: 'rook',
 	notation: 'r',
@@ -9,7 +11,4 @@ export const ROOK = new Piece({
 		[0, -1],
 	],
 	patternRepeat: true,
-	canMoveTo: (from: string, to: string, board: Board) => {
-		return true
-	},
 })
