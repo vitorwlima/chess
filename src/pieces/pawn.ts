@@ -1,4 +1,4 @@
-import { Piece } from '.'
+import { Piece } from './piece'
 
 export const PAWN = new Piece({
 	name: 'pawn',

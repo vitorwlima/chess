@@ -1,4 +1,4 @@
-import { Piece } from '.'
+import { Piece } from './piece'
 
 export const QUEEN = new Piece({
 	name: 'queen',

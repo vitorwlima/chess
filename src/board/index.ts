@@ -1,3 +1,5 @@
+import { ALL_PIECES } from '../pieces'
+
 type Color = 'white' | 'black';
 
 type Square = {
@@ -5,9 +7,14 @@ type Square = {
   piece: 'king' | 'queen' | 'rook' | 'bishop' | 'knight' | 'pawn';
 } | null;
 
+type MoveToInput = {
+  from: keyof Board['position'];
+  to: keyof Board['position'];
+};
+
 export class Board {
-	turn: Color
-	position: {
+	public turn: Color
+	public position: {
     a1: Square;
     a2: Square;
     a3: Square;
@@ -73,6 +80,49 @@ export class Board {
     h7: Square;
     h8: Square;
   }
+	public moveTo({ from, to }: MoveToInput): Board {
+		const fromSquare = this.position[from]
+		const toSquare = this.position[to]
+
+		const canMoveTo = this.canMoveTo({ from, to })
+
+		if (canMoveTo === false) {
+			return this
+		}
+
+		if (toSquare === null) {
+			this.position[to] = fromSquare
+			this.position[from] = null
+			return this
+		}
+
+		this.position[to] = fromSquare
+		this.position[from] = null
+
+		return this
+	}
+
+	private canMoveTo({ from, to }: MoveToInput) {
+		const fromSquare = this.position[from]
+		const toSquare = this.position[to]
+
+		if (fromSquare === null) {
+			return false
+		}
+
+		if (fromSquare.color !== this.turn) {
+			return false
+		}
+
+		if (fromSquare.color === toSquare?.color) {
+			return false
+		}
+
+		const piece = ALL_PIECES[fromSquare.piece]
+		const canMoveTo = piece.canMoveTo({ from, to, board: this })
+
+		return canMoveTo
+	}
 
 	constructor(board?: Board) {
 		if (board) {
