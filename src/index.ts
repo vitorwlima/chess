@@ -1,3 +1,1 @@
-const board = {
-	a1: '',
-}
+console.log('index')

@@ -6,10 +6,10 @@ import { QUEEN } from './queen'
 import { ROOK } from './rook'
 
 export const ALL_PIECES = {
-	bishop: BISHOP,
-	king: KING,
-	knight: KNIGHT,
-	pawn: PAWN,
-	queen: QUEEN,
-	rook: ROOK,
+  bishop: BISHOP,
+  king: KING,
+  knight: KNIGHT,
+  pawn: PAWN,
+  queen: QUEEN,
+  rook: ROOK,
 }
