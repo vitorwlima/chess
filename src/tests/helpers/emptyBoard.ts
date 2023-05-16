@@ -74,5 +74,6 @@ export const getEmptyBoard = (board?: PartialBoard) =>
 			...board?.position,
 		},
 		turn: 'white',
+		movesPlayed: 0,
 		...board,
 	} as Board)

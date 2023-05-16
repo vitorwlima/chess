@@ -34,6 +34,7 @@
         "comma-spacing": [2, { "before": false, "after": true }],
         "comma-style": [2, "last"],
         "@typescript-eslint/no-unused-vars": "off",
-        "@typescript-eslint/no-empty-function": "off"
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/no-non-null-assertion": "off"
     }
 }

@@ -14,6 +14,7 @@ type MoveToInput = {
 
 export class Board {
 	public turn: Color
+	public movesPlayed: number
 	public position: {
     a1: Square;
     a2: Square;
@@ -93,13 +94,23 @@ export class Board {
 		if (toSquare === null) {
 			this.position[to] = fromSquare
 			this.position[from] = null
-			return this
+			
+			return this.advanceRound(this)
 		}
 
 		this.position[to] = fromSquare
 		this.position[from] = null
 
-		return this
+		return this.advanceRound(this)
+	}
+
+	private advanceRound(board: Board) {
+		const nextTurnColor = this.turn === 'white' ? 'black' : 'white'
+
+		this.turn = nextTurnColor
+		this.movesPlayed += 1
+	
+		return board
 	}
 
 	private canMoveTo({ from, to }: MoveToInput) {

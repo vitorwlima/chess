@@ -11,6 +11,8 @@ export class Piece {
 	public notation: string
 	public unicode: string
 	public pattern: number[][]
+	public takePattern?: number[][]
+	public firstMovePattern?: number[][]
 	public patternRepeat: boolean
 	public canMoveTo(data: CanMoveToInput) {
 		const canMoveBasedOnTurnAndPiece = this.canMoveBasedOnTurnAndPiece(data)
@@ -115,10 +117,7 @@ export class Piece {
 		return isPathClear
 	}
 
-	private canMoveBasedOnPattern = ({
-		from,
-		to,
-	}: Omit<CanMoveToInput, 'board'>) => {
+	private canMoveBasedOnPattern = ({ from, to, board }: CanMoveToInput) => {
 		const horizontalSquaresToTravel = Math.abs(
 			from[0].charCodeAt(0) - to[0].charCodeAt(0),
 		)
@@ -126,13 +125,15 @@ export class Piece {
 			from[1].charCodeAt(0) - to[1].charCodeAt(0),
 		)
 
-		const pieceCanTravel = this.pattern.some((pattern) => {
+		const patterns = this.getCorrectMovePattern({ from, to, board })
+
+		const pieceCanTravel = patterns.some((pattern) => {
 			const [horizontal, vertical] = pattern
 
 			if (!this.patternRepeat) {
 				return (
 					horizontalSquaresToTravel === horizontal &&
-          verticalSquaresToTravel === vertical
+          verticalSquaresToTravel === Math.abs(vertical)
 				)
 			}
 
@@ -155,5 +156,46 @@ export class Piece {
 		})
 
 		return pieceCanTravel
+	}
+
+	private getCorrectMovePattern = ({ from, to, board }: CanMoveToInput) => {
+		const piece = board.position[from]?.piece
+
+		if (piece !== 'pawn') {
+			return this.pattern
+		}
+
+		if (board.position[to] != null) {
+			return this.convertPattern({
+				color: board.turn,
+				pattern: this.takePattern!,
+			})
+		}
+
+		if (board.movesPlayed <= 1) {
+			return this.convertPattern({
+				color: board.turn,
+				pattern: [...this.pattern, ...this.firstMovePattern!],
+			})
+		}
+
+		return this.convertPattern({
+			color: board.turn,
+			pattern: this.pattern,
+		})
+	}
+
+	private convertPattern = ({
+		pattern,
+		color,
+	}: {
+    pattern: number[][];
+    color: 'white' | 'black';
+  }) => {
+		const orientation = color === 'white' ? 1 : -1
+
+		return pattern.map(([horizontal, vertical]) => {
+			return [horizontal, vertical * orientation]
+		})
 	}
 }
