@@ -15,6 +15,7 @@ type MoveToInput = {
 export class Board {
   public turn: Color
   public movesPlayed: number
+  public status: 'black' | 'white' | 'draw' | 'in-progress' | 'stalemate'
   public position: {
     a1: Square
     a2: Square
@@ -143,6 +144,8 @@ export class Board {
     }
 
     this.turn = 'white'
+    this.movesPlayed = 0
+    this.status = 'in-progress'
 
     this.position = {
       a1: { color: 'white', piece: 'rook' },
