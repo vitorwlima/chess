@@ -1,3 +1,4 @@
+import { GameStateContextProvider } from '@/hooks/useGameState'
 import { Inter } from 'next/font/google'
 import './globals.css'
 
@@ -15,7 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <GameStateContextProvider>
+        <body className={inter.className}>{children}</body>
+      </GameStateContextProvider>
     </html>
   )
 }

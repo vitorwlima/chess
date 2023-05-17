@@ -1,16 +1,16 @@
 'use client'
 
-import { socket } from '@/socket'
+import { useGameState } from '@/hooks/useGameState'
 import { useRef } from 'react'
 
 export default function Home() {
+  const { emitEvent } = useGameState()
   const roomIdInputRef = useRef<HTMLInputElement>(null)
   const nameInputRef = useRef<HTMLInputElement>(null)
 
   const handleCreateRoom = async () => {
     const data = { name: nameInputRef.current!.value }
-    console.log('create-room', { data })
-    socket.emit('create-room', data)
+    emitEvent('create-room', data)
   }
 
   const handleJoinRoom = async () => {
@@ -18,8 +18,7 @@ export default function Home() {
       roomId: roomIdInputRef.current!.value,
       name: nameInputRef.current!.value,
     }
-    console.log('join-room', { data })
-    socket.emit('join-room', data)
+    emitEvent('join-room', data)
   }
 
   return (
