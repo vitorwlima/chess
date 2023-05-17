@@ -1,8 +1,8 @@
-import { Socket } from 'socket.io'
+import { Server, Socket } from 'socket.io'
 import { Board } from '../board'
 
 type Player = {
-  socket: Socket
+  socketId: string
   name: string
   color: 'white' | 'black'
 }
@@ -10,6 +10,7 @@ type Player = {
 export type CreateRoomArgs = {
   socket: Socket
   name: string
+  io: Server
 }
 
 export type JoinRoomArgs = {
@@ -19,7 +20,6 @@ export type JoinRoomArgs = {
 }
 
 export type MovePieceArgs = {
-  socket: Socket
   roomId: string
   data: {
     from: keyof Board['position']
@@ -28,47 +28,53 @@ export type MovePieceArgs = {
 }
 
 class GameState {
-  private static instance: GameState
+  private static instances: Map<string, GameState> = new Map()
   private roomId: string
   private players: Player[] = []
   private board: Board = new Board()
   private inGame: boolean = false
+  private io: Server
 
-  private constructor(roomId: string) {
+  private constructor(roomId: string, io: Server) {
     this.roomId = roomId
+    this.io = io
   }
 
-  static getInstance(roomId: string): GameState {
-    const instance = GameState.instance
-      ? GameState.instance
-      : new GameState(roomId)
+  static getInstance(roomId: string, io: Server): GameState {
+    const instanceAlreadyExists = GameState.instances.has(roomId)
+    const instance = instanceAlreadyExists
+      ? GameState.instances.get(roomId)!
+      : new GameState(roomId, io)
+
+    const newInstances = instanceAlreadyExists
+      ? GameState.instances
+      : GameState.instances.set(roomId, instance)
+    this.instances = newInstances
+
     return instance
   }
 
-  static createAndJoinRoom({ name, socket }: CreateRoomArgs): GameState {
+  static createAndJoinRoom({ name, socket, io }: CreateRoomArgs): GameState {
     const roomId = this.getRandomRoomId()
-    const gameState = this.getInstance(roomId)
+    const gameState = this.getInstance(roomId, io)
     return gameState.joinRoom({ name, socket, roomId })
   }
 
   public joinRoom({ socket, name }: JoinRoomArgs): GameState {
     const color = this.players.length === 0 ? 'white' : 'black'
-    this.players.push({ socket, name, color })
+    this.players.push({ socketId: socket.id, name, color })
     socket.join(this.roomId)
 
     if (this.players.length === 2) {
       this.inGame = true
     }
 
-    // io.to(this.roomId).emit('gamestate-update', this)
-
-    return this
+    return this.updateGameState(this)
   }
 
   public movePiece({ from, to }: MovePieceArgs['data']): GameState {
     this.board.moveTo({ from, to })
-    // io.to(this.roomId).emit('gamestate-update', this)
-    return this
+    return this.updateGameState(this)
   }
 
   private static getRandomRoomId(): string {
@@ -86,6 +92,19 @@ class GameState {
     // }
 
     return result
+  }
+
+  private updateGameState(gameState: GameState) {
+    const { players, board, inGame, roomId } = gameState
+    const gameStateToSend = {
+      players,
+      board,
+      inGame,
+      roomId,
+    }
+
+    this.io.to(this.roomId).emit('gamestate-update', gameStateToSend)
+    return gameState
   }
 }
 

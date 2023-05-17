@@ -22,7 +22,6 @@
     "vitest": "^0.31.0"
   },
   "dependencies": {
-    "@fastify/cors": "^8.2.1",
     "fastify": "^4.17.0",
     "socket.io": "^4.6.1"
   }
