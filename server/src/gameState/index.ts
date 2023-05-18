@@ -51,6 +51,11 @@ class GameState {
       : GameState.instances.set(roomId, instance)
     this.instances = newInstances
 
+    console.info(
+      'GameState instances (roomIds): ',
+      Array.from(newInstances.keys()),
+    )
+
     return instance
   }
 

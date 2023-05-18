@@ -1,10 +1,12 @@
 'use client'
 
+import { GameState } from '@/types/GameState'
+import { usePathname, useRouter } from 'next/navigation'
 import { ReactNode, createContext, useContext, useState } from 'react'
 import { io } from 'socket.io-client'
 
 type GameStateContextType = {
-  gameState: any
+  gameState: GameState | null
   emitEvent: (eventName: string, data: any) => void
 }
 
@@ -18,16 +20,28 @@ export const GameStateContextProvider = ({
   children: ReactNode
 }) => {
   const socket = io('http://localhost:3333')
-  const [gameState, setGameState] = useState({})
+  const [gameState, setGameState] = useState<GameState | null>(null)
+  const pathname = usePathname()
+  const { push } = useRouter()
 
   const emitEvent = (eventName: string, data: any) => {
     console.info('(EMIT-EVENT) eventName', data)
     socket.emit(eventName, data)
   }
 
-  socket.on('gamestate-update', (gameState) => {
-    console.info('(EVENT) gamestate-update', gameState)
-    setGameState(gameState)
+  socket.on('gamestate-update', (gameState: GameState) => {
+    console.info('(EVENT) gamestate-update', gameState, { pathname })
+    setGameState({
+      ...gameState,
+      players: gameState.players.map((players) => ({
+        ...players,
+        isMe: players.socketId === socket.id,
+      })),
+    })
+
+    if (gameState && !pathname.includes('game')) {
+      push(`/game/${gameState.roomId}`)
+    }
   })
 
   return (
