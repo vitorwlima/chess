@@ -1,4 +1,4 @@
-import { Server, Socket } from 'socket.io'
+import { Socket } from 'socket.io'
 import {
   CreateRoomArgs,
   GameState,
@@ -8,25 +8,24 @@ import {
 
 type SocketProps = {
   socket: Socket
-  io: Server
 }
 
-export const handleSocketEvents = ({ socket, io }: SocketProps) => {
+export const handleSocketEvents = ({ socket }: SocketProps) => {
   console.info('(EVENT) connect', { socketId: socket.id })
   socket.on('create-room', (args: Omit<CreateRoomArgs, 'socket'>) => {
     console.info('(EVENT) create-room', { args })
-    GameState.createAndJoinRoom({ ...args, socket, io })
+    GameState.createAndJoinRoom({ ...args, socket })
   })
 
   socket.on('join-room', (args: Omit<JoinRoomArgs, 'socket'>) => {
     console.info('(EVENT) join-room', { args })
-    const gameState = GameState.getInstance(args.roomId, io)
+    const gameState = GameState.getInstance(args.roomId)
     gameState.joinRoom({ ...args, socket })
   })
 
   socket.on('move-piece', (args: MovePieceArgs) => {
     console.info('(EVENT) move-piece', { args })
-    const gameState = GameState.getInstance(args.roomId, io)
+    const gameState = GameState.getInstance(args.roomId)
     gameState.movePiece(args.data)
   })
 }

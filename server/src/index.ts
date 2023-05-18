@@ -8,7 +8,7 @@ export const fastify = Fastify({
 })
 
 const httpServer = createServer(fastify.server)
-const io = new Server(httpServer, {
+export const io = new Server(httpServer, {
   cors: {
     origin: '*',
     credentials: true,
@@ -16,7 +16,7 @@ const io = new Server(httpServer, {
 })
 
 io.on('connection', (socket) => {
-  handleSocketEvents({ socket, io })
+  handleSocketEvents({ socket })
 })
 
 httpServer.listen(3333, undefined, () => {

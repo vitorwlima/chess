@@ -1,4 +1,5 @@
-import { Server, Socket } from 'socket.io'
+import { Socket } from 'socket.io'
+import { io } from '..'
 import { Board } from '../board'
 
 type Player = {
@@ -10,7 +11,6 @@ type Player = {
 export type CreateRoomArgs = {
   socket: Socket
   name: string
-  io: Server
 }
 
 export type JoinRoomArgs = {
@@ -33,18 +33,16 @@ class GameState {
   private players: Player[] = []
   private board: Board = new Board()
   private inGame: boolean = false
-  private io: Server
 
-  private constructor(roomId: string, io: Server) {
+  private constructor(roomId: string) {
     this.roomId = roomId
-    this.io = io
   }
 
-  static getInstance(roomId: string, io: Server): GameState {
+  static getInstance(roomId: string): GameState {
     const instanceAlreadyExists = GameState.instances.has(roomId)
     const instance = instanceAlreadyExists
       ? GameState.instances.get(roomId)!
-      : new GameState(roomId, io)
+      : new GameState(roomId)
 
     const newInstances = instanceAlreadyExists
       ? GameState.instances
@@ -59,9 +57,9 @@ class GameState {
     return instance
   }
 
-  static createAndJoinRoom({ name, socket, io }: CreateRoomArgs): GameState {
+  static createAndJoinRoom({ name, socket }: CreateRoomArgs): GameState {
     const roomId = this.getRandomRoomId()
-    const gameState = this.getInstance(roomId, io)
+    const gameState = this.getInstance(roomId)
     return gameState.joinRoom({ name, socket, roomId })
   }
 
@@ -90,11 +88,11 @@ class GameState {
     for (let i = length; i > 0; --i)
       result += chars[Math.floor(Math.random() * chars.length)]
 
-    // const roomExists = !!io.sockets.adapter.rooms.get(result)
+    const roomExists = io.sockets.adapter.rooms.has(result)
 
-    // if (roomExists) {
-    //   return this.getRandomRoomId()
-    // }
+    if (roomExists) {
+      return this.getRandomRoomId()
+    }
 
     return result
   }
@@ -108,7 +106,7 @@ class GameState {
       roomId,
     }
 
-    this.io.to(this.roomId).emit('gamestate-update', gameStateToSend)
+    io.to(this.roomId).emit('gamestate-update', gameStateToSend)
     return gameState
   }
 }
