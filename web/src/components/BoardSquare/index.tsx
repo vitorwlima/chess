@@ -7,6 +7,8 @@ type Props = {
   square: Square
   position: keyof Board['position']
   isWhitePerspective: boolean
+  onSquareClick: (position: keyof Board['position'], square: Square) => void
+  selectedSquare: keyof Board['position'] | null
 }
 
 const blackSquares = [
@@ -67,17 +69,24 @@ export const BoardSquare: React.FC<Props> = ({
   square,
   position,
   isWhitePerspective,
+  onSquareClick,
+  selectedSquare,
 }) => {
   return (
-    <div
-      className={clsx('grid h-16 w-16 place-items-center text-5xl', {
-        'bg-zinc-500': blackSquares.includes(position),
-        'bg-white': !blackSquares.includes(position),
-        'rotate-90': isWhitePerspective,
-        '-rotate-90': !isWhitePerspective,
-      })}
+    <button
+      className={clsx(
+        'grid h-16 w-16 cursor-pointer place-items-center text-5xl transition-colors hover:bg-zinc-300',
+        {
+          'bg-zinc-500': blackSquares.includes(position),
+          'bg-white': !blackSquares.includes(position),
+          'rotate-90': isWhitePerspective,
+          '-rotate-90': !isWhitePerspective,
+          'bg-zinc-300': selectedSquare === position,
+        },
+      )}
+      onClick={() => onSquareClick(position, square)}
     >
       {square ? pieces[square.color][square.piece] : ''}
-    </div>
+    </button>
   )
 }

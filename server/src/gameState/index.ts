@@ -21,10 +21,9 @@ export type JoinRoomArgs = {
 
 export type MovePieceArgs = {
   roomId: string
-  data: {
-    from: keyof Board['position']
-    to: keyof Board['position']
-  }
+  playerSocketId: string
+  from: keyof Board['position']
+  to: keyof Board['position']
 }
 
 class GameState {
@@ -85,7 +84,15 @@ class GameState {
     return this.updateGameState(this)
   }
 
-  public movePiece({ from, to }: MovePieceArgs['data']): GameState {
+  public movePiece({ from, to, playerSocketId }: MovePieceArgs): GameState {
+    const isPlayersTurnAndColor =
+      this.players.find((player) => player.socketId === playerSocketId)
+        ?.color === this.board.turn
+
+    if (!isPlayersTurnAndColor) {
+      return this.updateGameState(this)
+    }
+
     this.board.moveTo({ from, to })
     return this.updateGameState(this)
   }

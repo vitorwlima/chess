@@ -26,8 +26,14 @@ export const GameStateContextProvider = ({
   const { push } = useRouter()
 
   const emitEvent = (eventName: Events, data: any) => {
-    console.info('(EMIT-EVENT) eventName', data)
-    socket.emit(eventName, { roomId: gameState?.roomId, ...data })
+    const dataToSend = {
+      roomId: gameState?.roomId,
+      playerSocketId: gameState?.players.find((p) => p.isMe)?.socketId,
+      ...data,
+    }
+
+    console.info('(EMIT-EVENT) eventName', dataToSend)
+    socket.emit(eventName, dataToSend)
   }
 
   socket.on('gamestate-update', (gameState: GameState) => {

@@ -1,16 +1,37 @@
 'use client'
 
 import { useGameState } from '@/hooks/useGameState'
-import { Board } from '@/types/GameState'
+import { Events } from '@/types/Events'
+import { Board, Square } from '@/types/GameState'
 import clsx from 'clsx'
+import { useState } from 'react'
 import { BoardSquare } from '../BoardSquare'
 
 export const ChessBoard = () => {
-  const { gameState } = useGameState()
+  const { emitEvent, gameState } = useGameState()
+  const [nextMove, setNextMove] = useState<keyof Board['position'] | null>(null)
 
   if (!gameState) return null
 
   const playerIsWhite = gameState.players.find((p) => p.isMe)!.color === 'white'
+
+  const handleSquareClick = (
+    position: keyof Board['position'],
+    square: Square,
+  ) => {
+    if (!nextMove) {
+      if (!square?.piece) return
+      setNextMove(position)
+    } else if (nextMove === position) {
+      setNextMove(null)
+    } else {
+      emitEvent(Events.MOVE_PIECE, {
+        from: nextMove,
+        to: position,
+      })
+      setNextMove(null)
+    }
+  }
 
   return (
     <div
@@ -25,6 +46,8 @@ export const ChessBoard = () => {
           square={square}
           position={position as keyof Board['position']}
           isWhitePerspective={playerIsWhite}
+          onSquareClick={handleSquareClick}
+          selectedSquare={nextMove}
         />
       ))}
     </div>

@@ -39,6 +39,6 @@ export const handleSocketEvents = ({ socket }: SocketProps) => {
   socket.on(Events.MOVE_PIECE, (args: MovePieceArgs) => {
     console.info(`(EVENT) ${Events.MOVE_PIECE}`, { args })
     const gameState = GameState.getInstance(args.roomId)
-    gameState.movePiece(args.data)
+    gameState.movePiece(args)
   })
 }
