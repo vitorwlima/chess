@@ -68,10 +68,20 @@ class GameState {
     this.players.push({ socketId: socket.id, name, color })
     socket.join(this.roomId)
 
-    if (this.players.length === 2) {
-      this.inGame = true
-    }
+    return this.updateGameState(this)
+  }
 
+  public switchColors(): GameState {
+    this.players = this.players.map((player) => ({
+      ...player,
+      color: player.color === 'white' ? 'black' : 'white',
+    }))
+
+    return this.updateGameState(this)
+  }
+
+  public startGame(): GameState {
+    this.inGame = true
     return this.updateGameState(this)
   }
 

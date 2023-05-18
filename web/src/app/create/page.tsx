@@ -4,6 +4,7 @@ import { Button } from '@/components/Button'
 import { ButtonLink } from '@/components/ButtonLink'
 import { Input } from '@/components/Input'
 import { useGameState } from '@/hooks/useGameState'
+import { Events } from '@/types/Events'
 import { useRef } from 'react'
 
 const Create = () => {
@@ -11,7 +12,7 @@ const Create = () => {
   const { emitEvent } = useGameState()
 
   const handleCreateRoom = () => {
-    emitEvent('create-room', { name: nameInputRef.current!.value })
+    emitEvent(Events.CREATE_ROOM, { name: nameInputRef.current!.value })
   }
 
   return (

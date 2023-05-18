@@ -4,6 +4,7 @@ import { Button } from '@/components/Button'
 import { ButtonLink } from '@/components/ButtonLink'
 import { Input } from '@/components/Input'
 import { useGameState } from '@/hooks/useGameState'
+import { Events } from '@/types/Events'
 import { useRef } from 'react'
 
 const Join = () => {
@@ -12,7 +13,7 @@ const Join = () => {
   const { emitEvent } = useGameState()
 
   const handleJoinRoom = () => {
-    emitEvent('join-room', {
+    emitEvent(Events.JOIN_ROOM, {
       name: nameInputRef.current!.value,
       roomId: roomIdInputRef.current!.value,
     })

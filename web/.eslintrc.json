@@ -2,6 +2,7 @@
   "extends": ["next/core-web-vitals", "@rocketseat/eslint-config/react"],
   "rules": {
     "no-undef": "off",
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "no-unused-vars": "off"
   }
 }

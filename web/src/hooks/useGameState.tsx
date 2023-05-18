@@ -1,5 +1,6 @@
 'use client'
 
+import { Events } from '@/types/Events'
 import { GameState } from '@/types/GameState'
 import { usePathname, useRouter } from 'next/navigation'
 import { ReactNode, createContext, useContext, useState } from 'react'
@@ -7,7 +8,7 @@ import { io } from 'socket.io-client'
 
 type GameStateContextType = {
   gameState: GameState | null
-  emitEvent: (eventName: string, data: any) => void
+  emitEvent: (eventName: Events, data: any) => void
 }
 
 const GameStateContext = createContext<GameStateContextType>(
@@ -24,7 +25,7 @@ export const GameStateContextProvider = ({
   const pathname = usePathname()
   const { push } = useRouter()
 
-  const emitEvent = (eventName: string, data: any) => {
+  const emitEvent = (eventName: Events, data: any) => {
     console.info('(EMIT-EVENT) eventName', data)
     socket.emit(eventName, data)
   }
