@@ -6,4 +6,11 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   plugins: [],
+  theme: {
+    extend: {
+      gridTemplateRows: {
+        8: 'repeat(8, minmax(0, 1fr))',
+      },
+    },
+  },
 }
