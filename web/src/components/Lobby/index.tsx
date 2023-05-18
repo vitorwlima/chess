@@ -2,6 +2,7 @@
 
 import { useGameState } from '@/hooks/useGameState'
 import { Events } from '@/types/Events'
+import clsx from 'clsx'
 import { Button } from '../Button'
 import { ButtonLink } from '../ButtonLink'
 
@@ -18,6 +19,10 @@ const Lobby = () => {
     emitEvent(Events.START_GAME, {})
   }
 
+  const handleSwitchColors = () => {
+    emitEvent(Events.SWITCH_COLORS, {})
+  }
+
   return (
     <div>
       <section className="flex w-full max-w-lg flex-col items-center gap-y-20 text-xl">
@@ -32,9 +37,24 @@ const Lobby = () => {
         </div>
         <ul className="flex min-w-[40%] flex-col gap-y-1">
           {gameState.players.map((player) => (
-            <li key={player.socketId}>
-              {player.name}
-              {player.isMe ? ' (eu)' : ''}
+            <li
+              key={player.socketId}
+              className="flex items-center justify-between gap-4"
+            >
+              <span>
+                {player.name}
+                {player.isMe ? ' (eu)' : ''}
+              </span>
+              <button
+                className={clsx(
+                  `h-4 w-4 cursor-pointer rounded-full border border-black`,
+                  {
+                    'bg-white': player.color === 'white',
+                    'bg-black': player.color === 'black',
+                  },
+                )}
+                onClick={handleSwitchColors}
+              />
             </li>
           ))}
         </ul>

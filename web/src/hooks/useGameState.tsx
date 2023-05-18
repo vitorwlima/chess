@@ -27,7 +27,7 @@ export const GameStateContextProvider = ({
 
   const emitEvent = (eventName: Events, data: any) => {
     console.info('(EMIT-EVENT) eventName', data)
-    socket.emit(eventName, data)
+    socket.emit(eventName, { roomId: gameState?.roomId, ...data })
   }
 
   socket.on('gamestate-update', (gameState: GameState) => {
