@@ -172,7 +172,7 @@ export class Piece {
       })
     }
 
-    if (board.movesPlayed <= 1) {
+    if (from[1] === '2' || from[1] === '7') {
       return this.convertPattern({
         color: board.turn,
         pattern: [...this.pattern, ...this.firstMovePattern!],
