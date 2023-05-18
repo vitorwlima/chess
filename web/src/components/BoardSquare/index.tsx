@@ -6,6 +6,7 @@ import clsx from 'clsx'
 type Props = {
   square: Square
   position: keyof Board['position']
+  isWhitePerspective: boolean
 }
 
 const blackSquares = [
@@ -62,12 +63,18 @@ const pieces = {
   },
 }
 
-export const BoardSquare: React.FC<Props> = ({ square, position }) => {
+export const BoardSquare: React.FC<Props> = ({
+  square,
+  position,
+  isWhitePerspective,
+}) => {
   return (
     <div
-      className={clsx('grid h-16 w-16 rotate-90 place-items-center text-5xl', {
+      className={clsx('grid h-16 w-16 place-items-center text-5xl', {
         'bg-zinc-500': blackSquares.includes(position),
         'bg-white': !blackSquares.includes(position),
+        'rotate-90': isWhitePerspective,
+        '-rotate-90': !isWhitePerspective,
       })}
     >
       {square ? pieces[square.color][square.piece] : ''}
