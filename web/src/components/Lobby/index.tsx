@@ -25,7 +25,7 @@ const Lobby = () => {
 
   return (
     <div>
-      <section className="flex w-full max-w-lg flex-col items-center gap-y-20 text-xl">
+      <section className="flex w-full max-w-lg flex-col items-center gap-y-20">
         <div className="mx-auto flex items-center gap-x-4">
           <p>Código da sala:</p>
           <button
@@ -66,7 +66,7 @@ const Lobby = () => {
             Start
           </Button>
           <ButtonLink href="/" reverse>
-            Voltar
+            Go back
           </ButtonLink>
         </div>
       </section>
